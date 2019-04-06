@@ -1,19 +1,42 @@
-var app = require('express')();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
+const express = require('express');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const passport = require('passport');
 
-app.get('/', function (req, res) {
-    res.sendFile(__dirname + '/index.html');
+const users = require('./routes/api/users');
+
+const app = express();
+
+// body parser middleware
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+// DB Config
+const db = require('./config/keys').mongoURI;
+
+// Connect to MongoDB Atlas
+mongoose
+    .connect(db, {useNewUrlParser: true})
+    .then(() => console.log('MongoDB Connected'))
+    .catch(err => console.log(err));
+
+// Passport middleware
+app.use(passport.initialize());
+
+// Passport Config
+require('./config/passport')(passport);
+
+// Use Routes
+app.use('/api/users', users);
+
+// Unit test the Express Server
+app.get('/', function(req, res){
+    res.status(200).send('Ok: first test Pass');
 });
 
-io.on('connection', function (socket) {
-    socket.on('chat message', function(msg) {
-        io.emit('chat message', msg);
-    });
-});
+const port = process.env.PORT || 5000;
 
-http.listen(3000, function () {
-    console.log('listening on *:3000');
-});
+app.listen(port, () => console.log(`Server running on port ${port}`));
+
 
 
