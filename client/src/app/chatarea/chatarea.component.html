@@ -1,16 +1,17 @@
 <div class="container-fluid">
   <div class="row justify-content-start">
-    <div class="col">
-      <div class="d-print-none">{{displayArea}}</div>
-      {{inputValue}}
+    <div id="displayMessage" class="col">
+      <div *ngFor="let message of messages">
+        {{message}}
+      </div>
     </div>
     <div class="w-100 align-items-end fixed-bottom">
       <div class="col">
         <div class="input-group mb-3 input-group-lg">
-          <input #inputMessage type="text" class="form-control" placeholder="Enter your text" (keyup.enter)="inputData(inputMessage.value)"
+          <input [(ngModel)]="message" type="text" class="form-control" placeholder="Enter your text" (keyup.enter)="onKeyUp()"
             aria-describedby="button-addon2">
           <div class="input-group-append">
-            <button (click)="inputData(inputMessage.value)" class="btn btn-outline-secondary" type="button" id="button-addon2">Send</button>
+            <button (click)="onKeyUp()" class="btn btn-outline-secondary" type="button" id="button-addon2">Send</button>
           </div>
         </div>
       </div> <!-- Input Coulum end-->

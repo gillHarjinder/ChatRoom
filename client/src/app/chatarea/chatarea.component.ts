@@ -7,13 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ChatareaComponent implements OnInit {
 
-  displayArea = 'Display Area Works!';
-  inputArea = 'Input Arera Works!';
+  message = '';
+  messages = [];
 
   inputValue = '';
 
-  inputData(value: string) {
-    this.inputValue = value;
+  onKeyUp() {
+    this.messages.push(this.message);
+    this.message = '';
   }
 
   constructor() { }
