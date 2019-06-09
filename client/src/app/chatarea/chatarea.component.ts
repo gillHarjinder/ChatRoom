@@ -13,13 +13,18 @@ export class ChatareaComponent implements OnInit {
 
   constructor(private chatRoomService: ChatroomService) { }
 
+  // Get input form front and send to service.ts
   sendMessage() {
-    this.messages.push(this.message);
     this.chatRoomService.sendMessage(this.message);
     this.message = '';
   }
 
   ngOnInit() {
+    this.chatRoomService
+      .getMessages()
+      .subscribe((message) => {
+        this.messages.push(message);
+      });
   }
 
 }
