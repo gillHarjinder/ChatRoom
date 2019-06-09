@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ChatroomService } from '../chatroom.service';
 
 @Component({
   selector: 'app-chatarea',
@@ -10,14 +11,13 @@ export class ChatareaComponent implements OnInit {
   message = '';
   messages = [];
 
-  inputValue = '';
+  constructor(private chatRoomService: ChatroomService) { }
 
-  onKeyUp() {
+  sendMessage() {
     this.messages.push(this.message);
+    this.chatRoomService.sendMessage(this.message);
     this.message = '';
   }
-
-  constructor() { }
 
   ngOnInit() {
   }

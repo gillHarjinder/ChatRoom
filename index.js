@@ -1,11 +1,17 @@
-let app = require('express')();
-let http = require('http').createServer(app);
+var app = require('express')();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
 
+const port = process.env.PORT || 3000;
 
-app.get('/', function(req, res){
-    res.send('<h1>Hello Word</h1>');
+io.on('connection', (socket) => {
+    console.log('user connected');
+
+    socket.on('new-message', (message) => {
+        console.log(message);
+    });
 });
 
-http.listen(3000, function(){
-    console.log('listening on http://localhost:3000/');
+http.listen(port, () => {
+    console.log(`listening on http://localhost:${port}`);
 });
