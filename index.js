@@ -1,6 +1,7 @@
-var app = require('express')();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
+let app = require('express')();
+let http = require('http').Server(app);
+let io = require('socket.io')(http);
+
 
 const port = process.env.PORT || 3000;
 
@@ -8,7 +9,7 @@ io.on('connection', (socket) => {
     console.log('user connected');
 
     socket.on('new-message', (message) => {
-        io.emit('new-message', message);
+        socket.emit('new-message', message);
     });
 });
 
